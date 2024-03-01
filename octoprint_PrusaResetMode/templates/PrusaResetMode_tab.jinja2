@@ -1,0 +1,36 @@
+<h1>READ FW VERSION AND S/N</h1>
+<div class="row-fluid">
+    <div class="span6">
+        <button class="btn btn-block" data-bind="enable: isReady() && loginState.hasPermissionKo(access.permissions.ADMIN), click: function() { $root.sendSemicolonCommand(';C32u2_FWV') }">
+            Read FW Version (see terminal)
+        </button>
+    </div>
+    <div class="span6">
+        <button class="btn btn-block" data-bind="enable: isReady() && loginState.hasPermissionKo(access.permissions.ADMIN), click: function() { $root.sendSemicolonCommand(';C32u2_SNR') }">
+            Read Serial Number (see terminal)
+        </button>
+    </div>
+</div>
+
+<br>
+
+<h1>ENABLE/DISABLE RESET MODE</h1>
+<div class="row-fluid">
+    <div class="span6">
+        <button class="btn btn-block" data-bind="enable: isReady() && loginState.hasPermissionKo(access.permissions.ADMIN), click: function() { if (confirm('Are you sure you want to disable the Reset Mode? You will need to re-enable it to be able to update the printer firmware.')) {$root.sendSemicolonCommand(';C32u2_RMD')} }">
+            Disable Reset Mode
+        </button>
+    </div>
+    <div class="span6">
+        <button class="btn btn-block" data-bind="enable: isReady() && loginState.hasPermissionKo(access.permissions.ADMIN), click: function() { if (confirm('Are you sure you want to enable the Reset Mode? Your printer will restart each time Octoprint is reconnected.')) {$root.sendSemicolonCommand(';C32u2_RME')} }">
+            Enable Reset Mode
+        </button>
+    </div>
+</div>
+
+<br>
+
+<h1>RESET EINSY BOARD</h1>
+<button class="btn btn-block" data-bind="enable: isReady() && loginState.hasPermissionKo(access.permissions.ADMIN), click: function() { if (confirm('Are you sure you want to restart the Einsy Board? Any printing in progress will be stopped.')) {$root.sendSemicolonCommand(';C2560_RES')} }">
+    Reset Einsy Board
+</button>
