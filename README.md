@@ -29,7 +29,7 @@ Remember to reactivate Reset Mode before upgrading your printer firmware, or it 
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    [https://github.com/jacopotediosi/OctoPrint-PrusaResetMode/archive/main.zip]
+    https://github.com/jacopotediosi/OctoPrint-PrusaResetMode/archive/main.zip
 
 
 ## Tested On
