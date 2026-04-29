@@ -9,7 +9,7 @@ There are numerous threads online referring to this problem, e.g.:
 - [GitHub: MK3 When connecting to the printer with Octoprint the MK3 printer reboots every time](https://github.com/prusa3d/Prusa-Firmware/issues/1572)
 - [GitHub: Connecting Repetier Server to USB port kills running print from SD card](https://github.com/prusa3d/Prusa-Firmware/issues/2374)
 - [GitHub: Plugging USB destructively restarts printer](https://github.com/prusa3d/Prusa-Firmware/issues/1253)
-- [Prusa Forum: Octoprint Reseting Printer + Power panics](https://forum.prusa3d.com/forum/original-prusa-i3-mk3s-mk3-user-mods-octoprint-enclosures-nozzles/octoprint-reseting-printer-power-panics/)
+- [Prusa Forum: Octoprint Resetting Printer + Power panics](https://forum.prusa3d.com/forum/original-prusa-i3-mk3s-mk3-user-mods-octoprint-enclosures-nozzles/octoprint-reseting-printer-power-panics/)
 
 The easiest workaround is to send "hidden" commands to the ATmega32U2 printer's serial controller, which allow you to enable and disable the Reset Mode: `;C32u2_RMD` and `;C32u2_RME`.
 
