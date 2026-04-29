@@ -40,3 +40,13 @@ include = [
     "octoprint_prusaresetmode",
     "octoprint_prusaresetmode.*",
 ]
+
+[tool.ruff]
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.djlint]
+no_set_formatting=true

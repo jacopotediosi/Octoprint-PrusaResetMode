@@ -1,26 +1,18 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-from flask import jsonify, request, make_response
-from werkzeug.exceptions import BadRequest
-
+import octoprint.plugin
+from flask import jsonify
 from octoprint.util import comm as comm
 
-from octoprint.server.util import has_permissions
-from octoprint.access.permissions import Permissions
 
-import octoprint.plugin
-
-
-class PrusaResetModePlugin(octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin, octoprint.plugin.SimpleApiPlugin):
+class PrusaResetModePlugin(
+    octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin, octoprint.plugin.SimpleApiPlugin
+):
     def get_assets(self):
         # Define your plugin's asset files to automatically include in the
         # core UI here.
-        return {
-            "js": ["js/PrusaResetMode.js"],
-            "css": ["css/PrusaResetMode.css"],
-            "less": ["less/PrusaResetMode.less"]
-        }
+        return {"js": ["js/PrusaResetMode.js"], "css": ["css/PrusaResetMode.css"], "less": ["less/PrusaResetMode.less"]}
 
     def get_update_information(self):
         # Define the configuration for your plugin to use with the Software Update
@@ -30,22 +22,18 @@ class PrusaResetModePlugin(octoprint.plugin.AssetPlugin, octoprint.plugin.Templa
             "PrusaResetMode": {
                 "displayName": "PrusaResetMode Plugin",
                 "displayVersion": self._plugin_version,
-
                 # version check: github repository
                 "type": "github_release",
                 "user": "jacopotediosi",
                 "repo": "OctoPrint-PrusaResetMode",
                 "current": self._plugin_version,
-
                 # update method: pip
                 "pip": "https://github.com/jacopotediosi/OctoPrint-PrusaResetMode/archive/{target_version}.zip",
             }
         }
 
     def get_api_commands(self):
-        return dict(
-            sendSemicolonCommand=["semicolonCommand"]
-        )
+        return dict(sendSemicolonCommand=["semicolonCommand"])
 
     def on_api_command(self, command, data):
         if command == "sendSemicolonCommand":
@@ -54,11 +42,10 @@ class PrusaResetModePlugin(octoprint.plugin.AssetPlugin, octoprint.plugin.Templa
             if not self._printer.is_ready():
                 return jsonify({"error": "Printer is not ready"}), 503
 
-            if semicolonCommand not in [';C32u2_FWV', ';C32u2_SNR', ';C32u2_RMD', ';C32u2_RME', ';C2560_RES']:
+            if semicolonCommand not in [";C32u2_FWV", ";C32u2_SNR", ";C32u2_RMD", ";C32u2_RME", ";C2560_RES"]:
                 return jsonify({"error": "Semicolon command not allowed"}), 403
 
-            comm.MachineCom._do_send_without_checksum(
-                self._printer._comm, semicolonCommand.encode())
+            comm.MachineCom._do_send_without_checksum(self._printer._comm, semicolonCommand.encode())
 
             return jsonify({"success": True}), 200
 
