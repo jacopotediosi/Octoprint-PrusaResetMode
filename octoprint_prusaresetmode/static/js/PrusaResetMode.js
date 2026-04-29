@@ -2,7 +2,7 @@
  * View model for OctoPrint-PrusaResetMode
  *
  * Author: Jacopo Tediosi
- * License: MIT
+ * License: AGPLv3
  */
 
 /* global $, ko, _, OctoPrint, OCTOPRINT_VIEWMODELS, PNotify */
