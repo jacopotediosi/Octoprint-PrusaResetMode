@@ -3,7 +3,15 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 from flask import jsonify
-from octoprint.util import comm as comm
+from octoprint import __version__ as octoprint_version
+
+# OctoPrint <2.0.0 uses "Send: " as log prefix
+# OctoPrint >=2.0.0 uses ">>> " as log prefix
+try:
+    _OCTOPRINT_MAJOR = int(octoprint_version.split(".", 1)[0])
+except (ValueError, AttributeError):
+    _OCTOPRINT_MAJOR = 1
+_SEND_LOG_PREFIX = ">>> " if _OCTOPRINT_MAJOR >= 2 else "Send: "
 
 
 class PrusaResetModePlugin(
@@ -28,8 +36,16 @@ class PrusaResetModePlugin(
             if semicolonCommand not in [";C32u2_FWV", ";C32u2_SNR", ";C32u2_RMD", ";C32u2_RME", ";C2560_RES"]:
                 return jsonify({"error": "Semicolon command not allowed"}), 403
 
-            comm.MachineCom._do_send_without_checksum(self._printer._comm, semicolonCommand.encode())
+            transport = self._printer.get_transport()
+            if transport is None:
+                return jsonify(
+                    {
+                        "error": "Printer transport not available, please check you are connected to your Prusa via a serial connection"
+                    }
+                ), 503
 
+            transport.write(semicolonCommand.encode() + b"\n")
+            self._printer.log_lines(_SEND_LOG_PREFIX + semicolonCommand)
             return jsonify({"success": True}), 200
 
     def is_api_adminonly(self):
