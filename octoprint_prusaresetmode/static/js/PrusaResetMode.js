@@ -5,7 +5,7 @@
  * License: MIT
  */
 
-/* global $, ko, OctoPrint, OCTOPRINT_VIEWMODELS, PNotify */
+/* global $, ko, _, OctoPrint, OCTOPRINT_VIEWMODELS, PNotify */
 /* eslint camelcase: "off" */
 
 $(function () {
@@ -37,7 +37,7 @@ $(function () {
         .done(function (response) {
           // eslint-disable-next-line no-new
           new PNotify({
-            title: self.pluginName,
+            title: _.escape(self.pluginName),
             text: 'Semicolon command sent successfully.\r\nPlease check Terminal for outputs.',
             type: 'success'
           })
@@ -45,7 +45,7 @@ $(function () {
         .fail(function (response) {
           // eslint-disable-next-line no-new
           new PNotify({
-            title: self.pluginName,
+            title: _.escape(self.pluginName),
             text: 'Error sending semicolon command!',
             type: 'error'
           })

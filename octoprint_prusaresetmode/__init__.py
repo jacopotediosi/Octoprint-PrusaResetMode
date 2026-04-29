@@ -10,27 +10,10 @@ class PrusaResetModePlugin(
     octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin, octoprint.plugin.SimpleApiPlugin
 ):
     def get_assets(self):
-        # Define your plugin's asset files to automatically include in the
-        # core UI here.
         return {"js": ["js/PrusaResetMode.js"], "css": ["css/PrusaResetMode.css"], "less": ["less/PrusaResetMode.less"]}
 
-    def get_update_information(self):
-        # Define the configuration for your plugin to use with the Software Update
-        # Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
-        # for details.
-        return {
-            "PrusaResetMode": {
-                "displayName": "PrusaResetMode Plugin",
-                "displayVersion": self._plugin_version,
-                # version check: github repository
-                "type": "github_release",
-                "user": "jacopotediosi",
-                "repo": "OctoPrint-PrusaResetMode",
-                "current": self._plugin_version,
-                # update method: pip
-                "pip": "https://github.com/jacopotediosi/OctoPrint-PrusaResetMode/archive/{target_version}.zip",
-            }
-        }
+    def is_template_autoescaped(self):
+        return True
 
     def get_api_commands(self):
         return dict(sendSemicolonCommand=["semicolonCommand"])
@@ -52,16 +35,24 @@ class PrusaResetModePlugin(
     def is_api_adminonly(self):
         return True
 
+    def is_api_protected(self):
+        return True
+
+    def get_update_information(self):
+        return {
+            "PrusaResetMode": {
+                "displayName": "PrusaResetMode Plugin",
+                "displayVersion": self._plugin_version,
+                "type": "github_release",
+                "current": self._plugin_version,
+                "user": "jacopotediosi",
+                "repo": "OctoPrint-PrusaResetMode",
+                "pip": "https://github.com/jacopotediosi/OctoPrint-PrusaResetMode/archive/{target_version}.zip",
+            }
+        }
+
 
 __plugin_name__ = "Prusa Reset Mode"
-__plugin_pythoncompat__ = ">=3,<4"
-
-
-def __plugin_load__():
-    global __plugin_implementation__
-    __plugin_implementation__ = PrusaResetModePlugin()
-
-    global __plugin_hooks__
-    __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
-    }
+__plugin_pythoncompat__ = ">=3.7,<4"
+__plugin_implementation__ = PrusaResetModePlugin()
+__plugin_hooks__ = {"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information}
