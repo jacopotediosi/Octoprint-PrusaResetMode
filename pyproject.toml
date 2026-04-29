@@ -1,0 +1,42 @@
+[build-system]
+requires = [
+    "setuptools>=68",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "OctoPrint-PrusaResetMode"
+version = "0.1.1"
+description = "A simple plugin to prevent your Prusa printer from resetting when OctoPrint connects."
+authors = [
+    { name = "Jacopo Tediosi", email = "jacopotediosi@gmail.com" },
+]
+requires-python = ">=3.7,<4"
+dependencies = []
+dynamic = [
+    "license",
+]
+
+[project.entry-points."octoprint.plugin"]
+PrusaResetMode = "octoprint_prusaresetmode"
+
+[project.urls]
+Homepage = "https://github.com/jacopotediosi/OctoPrint-PrusaResetMode"
+
+[project.optional-dependencies]
+develop = [
+    "go-task-bin",
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = [
+    "octoprint_prusaresetmode",
+    "octoprint_prusaresetmode.*",
+]
