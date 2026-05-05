@@ -3,15 +3,14 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 from flask import jsonify
-from octoprint import __version__ as octoprint_version
+from octoprint.util.version import is_octoprint_compatible
 
-# OctoPrint <2.0.0 uses "Send: " as log prefix
-# OctoPrint >=2.0.0 uses ">>> " as log prefix
-try:
-    _OCTOPRINT_MAJOR = int(octoprint_version.split(".", 1)[0])
-except (ValueError, AttributeError):
-    _OCTOPRINT_MAJOR = 1
-_SEND_LOG_PREFIX = ">>> " if _OCTOPRINT_MAJOR >= 2 else "Send: "
+if is_octoprint_compatible(">=2"):
+    # OctoPrint 2.x uses ">>> " as log prefix
+    _SEND_LOG_PREFIX = ">>> "
+else:
+    # OctoPrint 1.x uses "Send: " as log prefix
+    _SEND_LOG_PREFIX = "Send: "
 
 
 class PrusaResetModePlugin(
